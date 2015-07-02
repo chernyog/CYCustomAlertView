@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1849A5721B44E351001B257B /* CYConst.m in Sources */ = {isa = PBXBuildFile; fileRef = 1849A5711B44E351001B257B /* CYConst.m */; };
 		9AA1F4A31B442E9D009F23DD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AA1F4A21B442E9D009F23DD /* main.m */; };
 		9AA1F4A61B442E9D009F23DD /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AA1F4A51B442E9D009F23DD /* AppDelegate.m */; };
 		9AA1F4A91B442E9D009F23DD /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AA1F4A81B442E9D009F23DD /* ViewController.m */; };
@@ -14,7 +15,7 @@
 		9AA1F4AE1B442E9D009F23DD /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AA1F4AD1B442E9D009F23DD /* Images.xcassets */; };
 		9AA1F4B11B442E9D009F23DD /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9AA1F4AF1B442E9D009F23DD /* LaunchScreen.xib */; };
 		9AA1F4BD1B442E9D009F23DD /* CYCustomAlertViewTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AA1F4BC1B442E9D009F23DD /* CYCustomAlertViewTests.m */; };
-		9AA1F4C91B442ED3009F23DD /* CYCustomAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AA1F4C81B442ED3009F23DD /* CYCustomAlertView.m */; };
+		9AA1F4C91B442ED3009F23DD /* CYAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AA1F4C81B442ED3009F23DD /* CYAlertView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -28,6 +29,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1849A5701B44E351001B257B /* CYConst.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CYConst.h; sourceTree = "<group>"; };
+		1849A5711B44E351001B257B /* CYConst.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CYConst.m; sourceTree = "<group>"; };
+		1849A5731B44E571001B257B /* CYCustomAlertView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CYCustomAlertView.h; sourceTree = "<group>"; };
 		9AA1F49D1B442E9D009F23DD /* CYCustomAlertView.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CYCustomAlertView.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AA1F4A11B442E9D009F23DD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9AA1F4A21B442E9D009F23DD /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -41,8 +45,8 @@
 		9AA1F4B61B442E9D009F23DD /* CYCustomAlertViewTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CYCustomAlertViewTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AA1F4BB1B442E9D009F23DD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9AA1F4BC1B442E9D009F23DD /* CYCustomAlertViewTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CYCustomAlertViewTests.m; sourceTree = "<group>"; };
-		9AA1F4C71B442ED3009F23DD /* CYCustomAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CYCustomAlertView.h; sourceTree = "<group>"; };
-		9AA1F4C81B442ED3009F23DD /* CYCustomAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CYCustomAlertView.m; sourceTree = "<group>"; };
+		9AA1F4C71B442ED3009F23DD /* CYAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CYAlertView.h; sourceTree = "<group>"; };
+		9AA1F4C81B442ED3009F23DD /* CYAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CYAlertView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -126,8 +130,11 @@
 		9AA1F4C61B442EBF009F23DD /* CustomAlertView */ = {
 			isa = PBXGroup;
 			children = (
-				9AA1F4C71B442ED3009F23DD /* CYCustomAlertView.h */,
-				9AA1F4C81B442ED3009F23DD /* CYCustomAlertView.m */,
+				9AA1F4C71B442ED3009F23DD /* CYAlertView.h */,
+				9AA1F4C81B442ED3009F23DD /* CYAlertView.m */,
+				1849A5701B44E351001B257B /* CYConst.h */,
+				1849A5711B44E351001B257B /* CYConst.m */,
+				1849A5731B44E571001B257B /* CYCustomAlertView.h */,
 			);
 			path = CustomAlertView;
 			sourceTree = "<group>";
@@ -233,7 +240,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9AA1F4C91B442ED3009F23DD /* CYCustomAlertView.m in Sources */,
+				9AA1F4C91B442ED3009F23DD /* CYAlertView.m in Sources */,
+				1849A5721B44E351001B257B /* CYConst.m in Sources */,
 				9AA1F4A91B442E9D009F23DD /* ViewController.m in Sources */,
 				9AA1F4A61B442E9D009F23DD /* AppDelegate.m in Sources */,
 				9AA1F4A31B442E9D009F23DD /* main.m in Sources */,
@@ -431,6 +439,7 @@
 				9AA1F4C21B442E9D009F23DD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		9AA1F4C31B442E9D009F23DD /* Build configuration list for PBXNativeTarget "CYCustomAlertViewTests" */ = {
 			isa = XCConfigurationList;
@@ -439,6 +448,7 @@
 				9AA1F4C51B442E9D009F23DD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
