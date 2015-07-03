@@ -17,9 +17,13 @@
 
 @implementation CYAlertView
 
-- (instancetype)initWithTitle:(NSString *)title message:(NSString *)message delegate:(id<UIAlertViewDelegate>)delegate cancelButtonTitle:(NSString *)cancelButtonTitle otherButtonTitles:(NSString *)otherButtonTitles, ... {
-    
-    return nil;
+- (instancetype)initWithTitle:(NSString *)title message:(NSString *)message delegate:(id/*<CYAlertViewDelegate>*/)delegate cancelButtonTitle:(NSString *)cancelButtonTitle otherButtonTitles:(NSString *)otherButtonTitles, ... {
+    if (self = [super init]) {
+        self.title = title;
+        self.delegate = delegate;
+        
+    }
+    return self;
 }
 
 - (void)show {

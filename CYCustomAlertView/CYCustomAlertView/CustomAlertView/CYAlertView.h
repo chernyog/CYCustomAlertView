@@ -16,7 +16,6 @@
 
 - (void)customAlertView:(CYAlertView *)customAlertView clickedButtonAtIndex:(NSInteger)buttonIndex;
 
-
 - (void)customAlertViewCancel:(CYAlertView *)customAlertView;
 
 - (void)willPresentCustomAlertView:(CYAlertView *)customAlertView;  // before animation and showing view
@@ -30,7 +29,7 @@
 @interface CYAlertView : UIView
 
 /** 代理对象 */
-@property(nonatomic,weak) id <CYAlertViewDelegate> delegate;
+@property(nonatomic,weak) id /*<CYAlertViewDelegate>*/ delegate;
 /** 弹出框的标题 */
 @property(nonatomic,copy) NSString *title;
 /** 提示消息内容 */
@@ -51,7 +50,7 @@
 
  @return CYAlertView对象
  */
-- (instancetype)initWithTitle:(NSString *)title message:(NSString *)message delegate:(id <UIAlertViewDelegate>)delegate cancelButtonTitle:(NSString *)cancelButtonTitle otherButtonTitles:(NSString *)otherButtonTitles, ... NS_REQUIRES_NIL_TERMINATION NS_EXTENSION_UNAVAILABLE_IOS("Use UIAlertController instead.");
+- (instancetype)initWithTitle:(NSString *)title message:(NSString *)message delegate:(id /*<UIAlertViewDelegate>*/)delegate cancelButtonTitle:(NSString *)cancelButtonTitle otherButtonTitles:(NSString *)otherButtonTitles, ... NS_REQUIRES_NIL_TERMINATION NS_EXTENSION_UNAVAILABLE_IOS("Use UIAlertController instead.");
 
 /** 显示弹出框 */
 - (void)show;
