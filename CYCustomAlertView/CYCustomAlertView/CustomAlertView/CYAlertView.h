@@ -7,6 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CYCustomAlertView.h"
+
 
 @class CYAlertView;
 
@@ -29,13 +31,15 @@
 @interface CYAlertView : UIView
 
 /** 代理对象 */
-@property(nonatomic,weak) id /*<CYAlertViewDelegate>*/ delegate;
+@property(weak, nonatomic) id /*<CYAlertViewDelegate>*/ delegate;
 /** 弹出框的标题 */
-@property(nonatomic,copy) NSString *title;
+@property(copy, nonatomic) NSString *title;
 /** 提示消息内容 */
-@property(nonatomic,copy) NSString *message;
-/** 容器视图 */
-@property (weak, nonatomic) UIView *containerView;
+@property(copy, nonatomic) NSString *message;
+/** 容器视图（添加用户自定义的控件） */
+@property (strong, nonatomic) UIView *containerView;
+/** 弹出框 */
+@property (strong, nonatomic) UIView *dialogView;
 /** 按钮标题数组 */
 @property (strong, nonatomic) NSArray *buttonTitles;
 

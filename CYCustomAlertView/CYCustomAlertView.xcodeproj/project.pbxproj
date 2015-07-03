@@ -7,7 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		180F454A1B465A8D00E36836 /* CYCustomAlertView.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 180F45491B465A8D00E36836 /* CYCustomAlertView.bundle */; };
+		180F454C1B46639400E36836 /* CYCustomAlertView.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 180F454B1B46639400E36836 /* CYCustomAlertView.bundle */; };
+		180F454F1B466D5C00E36836 /* UIView+CYFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 180F454E1B466D5C00E36836 /* UIView+CYFrame.m */; };
 		1849A5721B44E351001B257B /* CYConst.m in Sources */ = {isa = PBXBuildFile; fileRef = 1849A5711B44E351001B257B /* CYConst.m */; };
 		9AA1F4A31B442E9D009F23DD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AA1F4A21B442E9D009F23DD /* main.m */; };
 		9AA1F4A61B442E9D009F23DD /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AA1F4A51B442E9D009F23DD /* AppDelegate.m */; };
@@ -30,7 +31,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		180F45491B465A8D00E36836 /* CYCustomAlertView.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = CYCustomAlertView.bundle; sourceTree = "<group>"; };
+		180F454B1B46639400E36836 /* CYCustomAlertView.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = CYCustomAlertView.bundle; sourceTree = "<group>"; };
+		180F454D1B466D5C00E36836 /* UIView+CYFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+CYFrame.h"; sourceTree = "<group>"; };
+		180F454E1B466D5C00E36836 /* UIView+CYFrame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+CYFrame.m"; sourceTree = "<group>"; };
 		1849A5701B44E351001B257B /* CYConst.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CYConst.h; sourceTree = "<group>"; };
 		1849A5711B44E351001B257B /* CYConst.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CYConst.m; sourceTree = "<group>"; };
 		1849A5731B44E571001B257B /* CYCustomAlertView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CYCustomAlertView.h; sourceTree = "<group>"; };
@@ -132,12 +135,14 @@
 		9AA1F4C61B442EBF009F23DD /* CustomAlertView */ = {
 			isa = PBXGroup;
 			children = (
-				180F45491B465A8D00E36836 /* CYCustomAlertView.bundle */,
 				9AA1F4C71B442ED3009F23DD /* CYAlertView.h */,
 				9AA1F4C81B442ED3009F23DD /* CYAlertView.m */,
 				1849A5701B44E351001B257B /* CYConst.h */,
 				1849A5711B44E351001B257B /* CYConst.m */,
+				180F454D1B466D5C00E36836 /* UIView+CYFrame.h */,
+				180F454E1B466D5C00E36836 /* UIView+CYFrame.m */,
 				1849A5731B44E571001B257B /* CYCustomAlertView.h */,
+				180F454B1B46639400E36836 /* CYCustomAlertView.bundle */,
 			);
 			path = CustomAlertView;
 			sourceTree = "<group>";
@@ -223,9 +228,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				180F454A1B465A8D00E36836 /* CYCustomAlertView.bundle in Resources */,
 				9AA1F4AC1B442E9D009F23DD /* Main.storyboard in Resources */,
 				9AA1F4B11B442E9D009F23DD /* LaunchScreen.xib in Resources */,
+				180F454C1B46639400E36836 /* CYCustomAlertView.bundle in Resources */,
 				9AA1F4AE1B442E9D009F23DD /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -246,6 +251,7 @@
 			files = (
 				9AA1F4C91B442ED3009F23DD /* CYAlertView.m in Sources */,
 				1849A5721B44E351001B257B /* CYConst.m in Sources */,
+				180F454F1B466D5C00E36836 /* UIView+CYFrame.m in Sources */,
 				9AA1F4A91B442E9D009F23DD /* ViewController.m in Sources */,
 				9AA1F4A61B442E9D009F23DD /* AppDelegate.m in Sources */,
 				9AA1F4A31B442E9D009F23DD /* main.m in Sources */,
