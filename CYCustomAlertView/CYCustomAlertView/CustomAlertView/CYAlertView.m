@@ -131,11 +131,27 @@
         [eventButton setTitle:[self.buttonTitles objectAtIndex:i] forState:UIControlStateNormal];
         [eventButton setTitleColor:[UIColor colorWithRed:0.0f green:0.5f blue:1.0f alpha:1.0f] forState:UIControlStateNormal];
         [eventButton setTitleColor:[UIColor colorWithRed:0.2f green:0.2f blue:0.2f alpha:0.5f] forState:UIControlStateHighlighted];
-        [eventButton.titleLabel setFont:[UIFont boldSystemFontOfSize:14.0f]];
+        [eventButton.titleLabel setFont:[UIFont systemFontOfSize:17.0f]];
         [eventButton.layer setCornerRadius:CYCustomAlertViewCornerRadius];
         // 设置按钮背景图片
         [eventButton setBackgroundImage:[UIImage imageNamed:CYCustomAlertViewSrcName(@"btn_bg")] forState:UIControlStateNormal];
-//        eventButton.clipsToBounds = YES;
+        if (i == 0) {
+            [eventButton.titleLabel setFont:[UIFont fontWithName:@"Helvetica-Bold" size:17]];
+        }
+        // 设置按钮底部为圆角
+        if (count > 1) {
+            UIBezierPath *maskPath = nil;
+            if (i == 0) {
+                 maskPath = [UIBezierPath bezierPathWithRoundedRect:eventButton.bounds byRoundingCorners: UIRectCornerBottomLeft cornerRadii:CGSizeMake(CYCustomAlertViewCornerRadius, CYCustomAlertViewCornerRadius)];
+            }
+            if (i == (count - 1)) {
+                maskPath = [UIBezierPath bezierPathWithRoundedRect:eventButton.bounds byRoundingCorners: UIRectCornerBottomRight cornerRadii:CGSizeMake(CYCustomAlertViewCornerRadius, CYCustomAlertViewCornerRadius)];
+            }
+            CAShapeLayer *maskLayer = [[CAShapeLayer alloc] init];
+            maskLayer.frame = eventButton.bounds;
+            maskLayer.path = maskPath.CGPath;
+            eventButton.layer.mask = maskLayer;
+        }
         [container addSubview:eventButton];
     }
 }
