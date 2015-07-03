@@ -42,6 +42,8 @@
 @property (strong, nonatomic) UIView *dialogView;
 /** 按钮标题数组 */
 @property (strong, nonatomic) NSArray *buttonTitles;
+/** 标题View */
+@property (weak, nonatomic) UILabel *titleLabel;
 
 /**
  实例化CYAlertView对象

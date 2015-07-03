@@ -39,3 +39,5 @@ UIKIT_EXTERN const CGFloat CYCustomAlertViewCornerRadius;
 UIKIT_EXTERN const CGFloat CYCustomAlertViewButtonHeigth;
 /** 默认的按钮间间距 */
 UIKIT_EXTERN const CGFloat CYCustomAlertViewDefaultButtonSpacerHeight;
+/** 标题的高度 */
+UIKIT_EXTERN const CGFloat CYCustomAlertViewTitleHeight;

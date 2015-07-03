@@ -17,8 +17,73 @@
 
 @implementation CYAlertView
 
+#pragma mark - 懒加载
+- (UILabel *)titleLabel {
+    if (_titleLabel == nil) {
+        UILabel *titleLabel = [[UILabel alloc]init];
+        titleLabel.frame = CGRectMake(0, 0, CYScreenWith, CYCustomAlertViewTitleHeight);
+        titleLabel.textAlignment = NSTextAlignmentCenter;
+        self.titleLabel = titleLabel;
+        [self.dialogView addSubview:_titleLabel];
+    }
+    return _titleLabel;
+}
+
+- (UIView *)dialogView {
+    if (_dialogView == nil) {
+        UIView *dialogView = [[UIView alloc]init];
+        CGFloat dialogWidth = self.containerView.width;
+        CGFloat dialogHeight = self.containerView.height + CYCustomAlertViewButtonHeigth + CYCustomAlertViewDefaultButtonSpacerHeight;
+        CGSize dialogSize = CGSizeMake(dialogWidth, dialogHeight);
+        CGFloat dialogViewX = (CYScreenWith - dialogSize.width) / 2;
+        CGFloat dialogViewY = (CYScreenHeight - dialogSize.height) / 2;
+        CGFloat dialogViewW = dialogSize.width;
+        CGFloat dialogViewH = dialogSize.height;
+        dialogView.frame = CGRectMake(dialogViewX, dialogViewY, dialogViewW, dialogViewH);
+        
+        CAGradientLayer *gradient = [CAGradientLayer layer];
+        gradient.frame = dialogView.bounds;
+        gradient.colors = [NSArray arrayWithObjects:
+                           (id)[CYColor(218, 218, 218) CGColor],
+                           (id)[CYColor(233, 233, 233) CGColor],
+                           (id)[CYColor(218, 218, 218) CGColor],
+                           nil];
+        
+        CGFloat cornerRadius = CYCustomAlertViewCornerRadius;
+        gradient.cornerRadius = cornerRadius;
+        [dialogView.layer insertSublayer:gradient atIndex:0];
+        
+        dialogView.layer.cornerRadius = cornerRadius;
+        dialogView.layer.borderColor = [CYColor(198, 198, 198) CGColor];
+        dialogView.layer.borderWidth = 1;
+        dialogView.layer.shadowRadius = cornerRadius + 5;
+        dialogView.layer.shadowOpacity = 0.1f;
+        dialogView.layer.shadowOffset = CGSizeMake(0 - (cornerRadius+5)/2, 0 - (cornerRadius+5)/2);
+        dialogView.layer.shadowColor = [UIColor blackColor].CGColor;
+        dialogView.layer.shadowPath = [UIBezierPath bezierPathWithRoundedRect:dialogView.bounds cornerRadius:dialogView.layer.cornerRadius].CGPath;
+        self.dialogView = dialogView;
+    }
+    return _dialogView;
+}
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    
+    self.dialogView.width = CYCustomAlertViewWidth;
+    self.dialogView.height = CYCustomAlertViewHeight;
+    self.dialogView.centerX = self.centerX;
+    self.dialogView.centerY = self.centerY;
+    
+}
+
 - (instancetype)initWithTitle:(NSString *)title message:(NSString *)message delegate:(id)delegate cancelButtonTitle:(NSString *)cancelButtonTitle otherButtonTitles:(NSString *)otherButtonTitles, ... {
     if (self = [super init]) {
+        
+        self.dialogView.width = CYCustomAlertViewWidth;
+        self.dialogView.height = CYCustomAlertViewHeight;
+        self.dialogView.centerX = self.centerX;
+        self.dialogView.centerY = self.centerY;
+        
         self.title = title;
         self.delegate = delegate;
         self.frame = CYScreen.bounds;
@@ -27,8 +92,8 @@
 }
 
 - (void)show {
-    self.dialogView = [self createContainerView];
-    
+    [self.dialogView addSubview:[self createContainerView]];
+    NSLog(@"%@", NSStringFromCGRect(self.dialogView.frame));
     self.dialogView.layer.shouldRasterize = YES;
     self.dialogView.layer.rasterizationScale = [CYScreen scale];
     self.layer.shouldRasterize = YES;
@@ -50,14 +115,32 @@
         self.dialogView.layer.opacity = 1.0f;
         self.dialogView.layer.transform = CATransform3DMakeScale(1, 1, 1);
     }];
-    self.dialogView.backgroundColor = [UIColor redColor];
+    self.dialogView.backgroundColor = [UIColor whiteColor];
+    NSLog(@"%@", self.dialogView.subviews);
 }
 
 - (void)close {
     
 }
 
+#pragma mark - 重写set方法
+- (void)setTitle:(NSString *)title {
+    _title = title;
+    self.titleLabel.text = title;
+}
+
 #pragma mark - 私有方法
+
+- (void)setContainerView:(UIView *)containerView {
+    _containerView = containerView;
+    
+    _containerView.width = CYCustomAlertViewWidth;
+    _containerView.height = CYCustomAlertViewHeight;
+    _containerView.x = 0;
+    _containerView.y = CYCustomAlertViewTitleHeight;
+
+    
+}
 
 - (UIView *)createContainerView
 {
@@ -65,48 +148,23 @@
         self.containerView = [[UIView alloc] init];
         self.containerView.width = CYCustomAlertViewWidth;
         self.containerView.height = CYCustomAlertViewHeight;
-        self.containerView.centerY = self.centerY;
-        self.containerView.centerX = self.centerX;
+        self.containerView.x = 0;
+        self.containerView.y = CYCustomAlertViewTitleHeight;
     }
     
-    CGSize screenSize = CYScreen.bounds.size;
-    CGFloat dialogWidth = self.containerView.width;
-    CGFloat dialogHeight = self.containerView.height + CYCustomAlertViewButtonHeigth + CYCustomAlertViewDefaultButtonSpacerHeight;
-    CGSize dialogSize = CGSizeMake(dialogWidth, dialogHeight);
-    
-    UIView *dialogContainer = [[UIView alloc] initWithFrame:CGRectMake((screenSize.width - dialogSize.width) / 2, (screenSize.height - dialogSize.height) / 2, dialogSize.width, dialogSize.height)];
-    
-    CAGradientLayer *gradient = [CAGradientLayer layer];
-    gradient.frame = dialogContainer.bounds;
-    gradient.colors = [NSArray arrayWithObjects:
-                       (id)[CYColor(218, 218, 218) CGColor],
-                       (id)[CYColor(233, 233, 233) CGColor],
-                       (id)[CYColor(218, 218, 218) CGColor],
-                       nil];
-    
-    CGFloat cornerRadius = CYCustomAlertViewCornerRadius;
-    gradient.cornerRadius = cornerRadius;
-    [dialogContainer.layer insertSublayer:gradient atIndex:0];
-    
-    dialogContainer.layer.cornerRadius = cornerRadius;
-    dialogContainer.layer.borderColor = [CYColor(198, 198, 198) CGColor];
-    dialogContainer.layer.borderWidth = 1;
-    dialogContainer.layer.shadowRadius = cornerRadius + 5;
-    dialogContainer.layer.shadowOpacity = 0.1f;
-    dialogContainer.layer.shadowOffset = CGSizeMake(0 - (cornerRadius+5)/2, 0 - (cornerRadius+5)/2);
-    dialogContainer.layer.shadowColor = [UIColor blackColor].CGColor;
-    dialogContainer.layer.shadowPath = [UIBezierPath bezierPathWithRoundedRect:dialogContainer.bounds cornerRadius:dialogContainer.layer.cornerRadius].CGPath;
+    UIView *dialogContainer = [[UIView alloc] init];
   
     UIView *lineView = [[UIView alloc] init];
-    CGFloat lineVirwX = 0;
-    CGFloat lineVirwY = dialogContainer.bounds.size.height - CYCustomAlertViewButtonHeigth - CYCustomAlertViewDefaultButtonSpacerHeight;
-    CGFloat lineVirwW = dialogContainer.bounds.size.width;
-    CGFloat lineVirwH = CYCustomAlertViewDefaultButtonSpacerHeight;
-    lineView.frame = CGRectMake(lineVirwX, lineVirwY, lineVirwW, lineVirwH);
+    CGFloat lineViewX = 0;
+    CGFloat lineViewY = dialogContainer.height - CYCustomAlertViewButtonHeigth - CYCustomAlertViewDefaultButtonSpacerHeight;
+    CGFloat lineViewW = dialogContainer.width;
+    CGFloat lineViewH = CYCustomAlertViewDefaultButtonSpacerHeight;
+    lineView.frame = CGRectMake(lineViewX, lineViewY, lineViewW, lineViewH);
     lineView.backgroundColor = CYColor(198, 198, 198);
     [dialogContainer addSubview:lineView];
     [dialogContainer addSubview:self.containerView];
     [self addButtonsToView:dialogContainer];
+    dialogContainer.backgroundColor = [UIColor redColor];
     return dialogContainer;
 }
 
