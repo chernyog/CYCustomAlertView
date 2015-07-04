@@ -11,17 +11,35 @@
 
 @interface CYAlertView ()
 
-
+@property (nonatomic,strong) NSMutableArray *buttonArray;
 
 @end
 
 @implementation CYAlertView
 
 #pragma mark - 懒加载
+
+- (NSMutableArray *)buttonArray {
+    if (_buttonArray == nil) {
+        _buttonArray = [NSMutableArray array];
+    }
+    return _buttonArray;
+}
+
+- (UIView *)lineView {
+    if (_lineView == nil) {
+        UIView *lineView = [[UIView alloc] init];
+        lineView.backgroundColor = CYColor(198, 198, 198);
+        [self.dialogView addSubview:lineView];
+        _lineView = lineView;
+    }
+    return _lineView;
+}
+
 - (UILabel *)titleLabel {
     if (_titleLabel == nil) {
         UILabel *titleLabel = [[UILabel alloc]init];
-        titleLabel.frame = CGRectMake(0, 0, CYScreenWith, CYCustomAlertViewTitleHeight);
+        titleLabel.frame = CGRectMake(0, 0, CYCustomAlertViewWidth, CYCustomAlertViewTitleHeight);
         titleLabel.textAlignment = NSTextAlignmentCenter;
         self.titleLabel = titleLabel;
         [self.dialogView addSubview:_titleLabel];
@@ -32,15 +50,6 @@
 - (UIView *)dialogView {
     if (_dialogView == nil) {
         UIView *dialogView = [[UIView alloc]init];
-        CGFloat dialogWidth = self.containerView.width;
-        CGFloat dialogHeight = self.containerView.height + CYCustomAlertViewButtonHeigth + CYCustomAlertViewDefaultButtonSpacerHeight;
-        CGSize dialogSize = CGSizeMake(dialogWidth, dialogHeight);
-        CGFloat dialogViewX = (CYScreenWith - dialogSize.width) / 2;
-        CGFloat dialogViewY = (CYScreenHeight - dialogSize.height) / 2;
-        CGFloat dialogViewW = dialogSize.width;
-        CGFloat dialogViewH = dialogSize.height;
-        dialogView.frame = CGRectMake(dialogViewX, dialogViewY, dialogViewW, dialogViewH);
-        
         CAGradientLayer *gradient = [CAGradientLayer layer];
         gradient.frame = dialogView.bounds;
         gradient.colors = [NSArray arrayWithObjects:
@@ -48,7 +57,6 @@
                            (id)[CYColor(233, 233, 233) CGColor],
                            (id)[CYColor(218, 218, 218) CGColor],
                            nil];
-        
         CGFloat cornerRadius = CYCustomAlertViewCornerRadius;
         gradient.cornerRadius = cornerRadius;
         [dialogView.layer insertSublayer:gradient atIndex:0];
@@ -61,7 +69,7 @@
         dialogView.layer.shadowOffset = CGSizeMake(0 - (cornerRadius+5)/2, 0 - (cornerRadius+5)/2);
         dialogView.layer.shadowColor = [UIColor blackColor].CGColor;
         dialogView.layer.shadowPath = [UIBezierPath bezierPathWithRoundedRect:dialogView.bounds cornerRadius:dialogView.layer.cornerRadius].CGPath;
-        self.dialogView = dialogView;
+        _dialogView = dialogView;
     }
     return _dialogView;
 }
@@ -73,7 +81,25 @@
     self.dialogView.height = CYCustomAlertViewHeight;
     self.dialogView.centerX = self.centerX;
     self.dialogView.centerY = self.centerY;
-    
+
+    CGFloat lineViewX = 0;
+    CGFloat lineViewY = CGRectGetMaxY(self.containerView.frame) - 1;
+    CGFloat lineViewW = CYCustomAlertViewWidth;
+    CGFloat lineViewH = CYCustomAlertViewDefaultButtonSpacerHeight;
+    self.lineView.frame = CGRectMake(lineViewX, lineViewY, lineViewW, lineViewH);
+
+    if (self.buttonArray == nil) return;
+
+    NSUInteger count = [self.buttonArray count];
+    CGFloat buttonWidth = (self.dialogView.width * 1.0) / count;
+    CGFloat eventButtonW = buttonWidth;
+    CGFloat eventButtonH = self.dialogView.height - CGRectGetMaxY(self.lineView.frame); // CYCustomAlertViewButtonHeigth;
+    CGFloat eventButtonY =  CGRectGetMaxY(self.containerView.frame); // self.dialogView.height - CYCustomAlertViewButtonHeigth;
+    for (NSUInteger i = 0; i < count; i++) {
+        CGFloat eventButtonX = i * buttonWidth;
+        UIButton *eventButton = [self.buttonArray objectAtIndex:i];
+        eventButton.frame = CGRectMake(eventButtonX, eventButtonY, eventButtonW, eventButtonH);
+    }
 }
 
 - (instancetype)initWithTitle:(NSString *)title message:(NSString *)message delegate:(id)delegate cancelButtonTitle:(NSString *)cancelButtonTitle otherButtonTitles:(NSString *)otherButtonTitles, ... {
@@ -92,7 +118,7 @@
 }
 
 - (void)show {
-    [self.dialogView addSubview:[self createContainerView]];
+    [self setupContainerView];
     NSLog(@"%@", NSStringFromCGRect(self.dialogView.frame));
     self.dialogView.layer.shouldRasterize = YES;
     self.dialogView.layer.rasterizationScale = [CYScreen scale];
@@ -115,7 +141,6 @@
         self.dialogView.layer.opacity = 1.0f;
         self.dialogView.layer.transform = CATransform3DMakeScale(1, 1, 1);
     }];
-    self.dialogView.backgroundColor = [UIColor whiteColor];
     NSLog(@"%@", self.dialogView.subviews);
 }
 
@@ -135,59 +160,47 @@
     _containerView = containerView;
     
     _containerView.width = CYCustomAlertViewWidth;
-    _containerView.height = CYCustomAlertViewHeight;
+    _containerView.height = CYCustomAlertViewHeight - CYCustomAlertViewButtonHeigth - CYCustomAlertViewTitleHeight;
     _containerView.x = 0;
     _containerView.y = CYCustomAlertViewTitleHeight;
-
-    
+    if ([_containerView isKindOfClass:[UIScrollView class]]) {
+        UIScrollView *tmpView = (UIScrollView *)_containerView;
+        tmpView.contentSize = CGSizeMake(_containerView.width, _containerView.height);
+    }
+    NSLog(@"%@", NSStringFromCGRect(_containerView.frame));
+    [self.dialogView addSubview:_containerView];
 }
 
-- (UIView *)createContainerView
+- (void)setupContainerView
 {
     if (self.containerView == nil) {
         self.containerView = [[UIView alloc] init];
         self.containerView.width = CYCustomAlertViewWidth;
-        self.containerView.height = CYCustomAlertViewHeight;
+        self.containerView.height = 0;
         self.containerView.x = 0;
         self.containerView.y = CYCustomAlertViewTitleHeight;
     }
-    
-#warning TODO!!!
-    
-    UIView *dialogContainer = [[UIView alloc] init];
-  
-    UIView *lineView = [[UIView alloc] init];
-    CGFloat lineViewX = 0;
-    CGFloat lineViewY = dialogContainer.height - CYCustomAlertViewButtonHeigth - CYCustomAlertViewDefaultButtonSpacerHeight;
-    CGFloat lineViewW = dialogContainer.width;
-    CGFloat lineViewH = CYCustomAlertViewDefaultButtonSpacerHeight;
-    lineView.frame = CGRectMake(lineViewX, lineViewY, lineViewW, lineViewH);
-    lineView.backgroundColor = CYColor(198, 198, 198);
-    [dialogContainer addSubview:lineView];
-    [dialogContainer addSubview:self.containerView];
-    [self addButtonsToView:dialogContainer];
-    dialogContainer.backgroundColor = [UIColor redColor];
-    return dialogContainer;
+    [self setupButtons];
 }
 
 #pragma mark - 添加按钮
-- (void)addButtonsToView: (UIView *)container
+- (void)setupButtons
 {
     if (self.buttonTitles == nil) return;
     
     NSUInteger count = [self.buttonTitles count];
-    CGFloat buttonWidth = container.bounds.size.width / count;
+    CGFloat buttonWidth = (self.dialogView.width * 1.0) / count;
+    CGFloat eventButtonW = buttonWidth;
+    CGFloat eventButtonH = CYCustomAlertViewButtonHeigth;
+    CGFloat eventButtonY =  CGRectGetMaxY(self.containerView.frame); // self.dialogView.height - CYCustomAlertViewButtonHeigth;
     for (NSUInteger i = 0; i < count; i++) {
         UIButton *eventButton = [UIButton buttonWithType:UIButtonTypeCustom];
         CGFloat eventButtonX = i * buttonWidth;
-        CGFloat eventButtonY = container.bounds.size.height - CYCustomAlertViewButtonHeigth;
-        CGFloat eventButtonW = buttonWidth;
-        CGFloat eventButtonH = CYCustomAlertViewButtonHeigth;
-        [eventButton setFrame:CGRectMake(eventButtonX, eventButtonY, eventButtonW, eventButtonH)];
+        eventButton.frame = CGRectMake(eventButtonX, eventButtonY, eventButtonW, eventButtonH);
         // 绑定事件
         [eventButton addTarget:self action:@selector(customAlertViewButton_Click:) forControlEvents:UIControlEventTouchUpInside];
         // 设置按钮属性
-        [eventButton setTag:i];
+        eventButton.tag = i;
         [eventButton setTitle:[self.buttonTitles objectAtIndex:i] forState:UIControlStateNormal];
         [eventButton setTitleColor:[UIColor colorWithRed:0.0f green:0.5f blue:1.0f alpha:1.0f] forState:UIControlStateNormal];
         [eventButton setTitleColor:[UIColor colorWithRed:0.2f green:0.2f blue:0.2f alpha:0.5f] forState:UIControlStateHighlighted];
@@ -212,7 +225,8 @@
             maskLayer.path = maskPath.CGPath;
             eventButton.layer.mask = maskLayer;
         }
-        [container addSubview:eventButton];
+        [self.buttonArray addObject:eventButton];
+        [self.dialogView addSubview:eventButton];
     }
 }
 

@@ -23,8 +23,7 @@
     
 }
 
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
-{
+- (IBAction)showDialog {
     CYAlertView *alert = [[CYAlertView alloc]initWithTitle:@"我的提示" message:@"消息正文" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
     alert.title = @"我的提示";
     alert.containerView = [self createDemoView];
@@ -32,17 +31,20 @@
     [alert show];
 }
 
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+
+}
+
 - (UIView *)createDemoView
 {
-    UIView *demoView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 290, 200)];
-    
     UITextView *textView = [[UITextView alloc]init];
-    textView.text = @"非强制，v1.0.4，250服务器\n1、今天早上\n2、的卡是否\n3、的拉伸到了地方\n4、洒落的发疯是\n5、啊大是大非\n6、阿打发第三方\n7、大发发的";
-    textView.frame = CGRectMake(0, 30, 290, 200);
+    textView.text = @"非强制，v1.0.4，250服务器\n1、今天早上\n2、的卡是否\n3、的拉伸到了地方\n4、洒落的发疯是\n5、啊大是大非\n6、阿打发第三方\n7、大发发的\n8、wojssdfasdf\n9、我批发快递费\n";
+//    textView.frame = CGRectMake(0, 30, 290, 200);
     textView.editable = NO;
-    [demoView addSubview:textView];
     
-    return demoView;
+    return textView;
 }
 
 - (void)didReceiveMemoryWarning {

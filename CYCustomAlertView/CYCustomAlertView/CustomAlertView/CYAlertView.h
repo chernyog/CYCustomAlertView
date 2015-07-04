@@ -45,6 +45,8 @@
 /** 标题View */
 @property (weak, nonatomic) UILabel *titleLabel;
 
+@property (weak, nonatomic) UIView *lineView;
+
 /**
  实例化CYAlertView对象
 
