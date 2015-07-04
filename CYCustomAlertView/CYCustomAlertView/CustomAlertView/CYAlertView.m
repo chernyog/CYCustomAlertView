@@ -7,6 +7,7 @@
 //
 
 #import "CYAlertView.h"
+#import "CYButton.h"
 
 
 @interface CYAlertView ()
@@ -76,25 +77,27 @@
 
 - (void)layoutSubviews {
     [super layoutSubviews];
-    
+
+    // 对话框
     self.dialogView.width = CYCustomAlertViewWidth;
     self.dialogView.height = CYCustomAlertViewHeight;
     self.dialogView.centerX = self.centerX;
     self.dialogView.centerY = self.centerY;
 
+    // 分割线
     CGFloat lineViewX = 0;
     CGFloat lineViewY = CGRectGetMaxY(self.containerView.frame) - 1;
     CGFloat lineViewW = CYCustomAlertViewWidth;
     CGFloat lineViewH = CYCustomAlertViewDefaultButtonSpacerHeight;
     self.lineView.frame = CGRectMake(lineViewX, lineViewY, lineViewW, lineViewH);
 
+    // 操作按钮
     if (self.buttonArray == nil) return;
-
     NSUInteger count = [self.buttonArray count];
     CGFloat buttonWidth = (self.dialogView.width * 1.0) / count;
     CGFloat eventButtonW = buttonWidth;
-    CGFloat eventButtonH = self.dialogView.height - CGRectGetMaxY(self.lineView.frame); // CYCustomAlertViewButtonHeigth;
-    CGFloat eventButtonY =  CGRectGetMaxY(self.containerView.frame); // self.dialogView.height - CYCustomAlertViewButtonHeigth;
+    CGFloat eventButtonH = self.dialogView.height - CGRectGetMaxY(self.lineView.frame);
+    CGFloat eventButtonY =  CGRectGetMaxY(self.containerView.frame);
     for (NSUInteger i = 0; i < count; i++) {
         CGFloat eventButtonX = i * buttonWidth;
         UIButton *eventButton = [self.buttonArray objectAtIndex:i];
@@ -119,7 +122,6 @@
 
 - (void)show {
     [self setupContainerView];
-    NSLog(@"%@", NSStringFromCGRect(self.dialogView.frame));
     self.dialogView.layer.shouldRasterize = YES;
     self.dialogView.layer.rasterizationScale = [CYScreen scale];
     self.layer.shouldRasterize = YES;
@@ -130,10 +132,7 @@
     
     self.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0];
     [self addSubview:self.dialogView];
-    
-    NSLog(@"self ====> %@", NSStringFromCGRect(self.frame));
-    NSLog(@"dialogView ====> %@", NSStringFromCGRect(self.dialogView.frame));
-    
+
     [[[[UIApplication sharedApplication] windows] firstObject] addSubview:self];
     
     [UIView animateWithDuration:0.2f animations:^{
@@ -141,7 +140,6 @@
         self.dialogView.layer.opacity = 1.0f;
         self.dialogView.layer.transform = CATransform3DMakeScale(1, 1, 1);
     }];
-    NSLog(@"%@", self.dialogView.subviews);
 }
 
 - (void)close {
@@ -167,7 +165,6 @@
         UIScrollView *tmpView = (UIScrollView *)_containerView;
         tmpView.contentSize = CGSizeMake(_containerView.width, _containerView.height);
     }
-    NSLog(@"%@", NSStringFromCGRect(_containerView.frame));
     [self.dialogView addSubview:_containerView];
 }
 
@@ -194,7 +191,7 @@
     CGFloat eventButtonH = CYCustomAlertViewButtonHeigth;
     CGFloat eventButtonY =  CGRectGetMaxY(self.containerView.frame); // self.dialogView.height - CYCustomAlertViewButtonHeigth;
     for (NSUInteger i = 0; i < count; i++) {
-        UIButton *eventButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        CYButton *eventButton = [CYButton buttonWithType:UIButtonTypeCustom];
         CGFloat eventButtonX = i * buttonWidth;
         eventButton.frame = CGRectMake(eventButtonX, eventButtonY, eventButtonW, eventButtonH);
         // 绑定事件
@@ -216,10 +213,12 @@
             UIBezierPath *maskPath = nil;
             if (i == 0) {
                  maskPath = [UIBezierPath bezierPathWithRoundedRect:eventButton.bounds byRoundingCorners: UIRectCornerBottomLeft cornerRadii:CGSizeMake(CYCustomAlertViewCornerRadius, CYCustomAlertViewCornerRadius)];
-            }
-            if (i == (count - 1)) {
+            }else if (i == (count - 1)) {
                 maskPath = [UIBezierPath bezierPathWithRoundedRect:eventButton.bounds byRoundingCorners: UIRectCornerBottomRight cornerRadii:CGSizeMake(CYCustomAlertViewCornerRadius, CYCustomAlertViewCornerRadius)];
+            }else {
+                maskPath = [UIBezierPath bezierPathWithRoundedRect:eventButton.bounds byRoundingCorners: kNilOptions cornerRadii:CGSizeMake(CYCustomAlertViewCornerRadius, CYCustomAlertViewCornerRadius)];
             }
+
             CAShapeLayer *maskLayer = [[CAShapeLayer alloc] init];
             maskLayer.frame = eventButton.bounds;
             maskLayer.path = maskPath.CGPath;
@@ -234,7 +233,7 @@
 /** 按钮点击事件 */
 - (void)customAlertViewButton_Click:(id)sender
 {
-    if (self.delegate != nil) {
+    if ([self.delegate respondsToSelector:@selector(customAlertView:clickedButtonAtIndex:)]) {
         [self.delegate customAlertView:self clickedButtonAtIndex:[sender tag]];
     }
 }
