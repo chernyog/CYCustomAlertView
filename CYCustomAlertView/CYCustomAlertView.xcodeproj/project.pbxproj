@@ -10,6 +10,7 @@
 		180F454C1B46639400E36836 /* CYCustomAlertView.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 180F454B1B46639400E36836 /* CYCustomAlertView.bundle */; };
 		180F454F1B466D5C00E36836 /* UIView+CYFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 180F454E1B466D5C00E36836 /* UIView+CYFrame.m */; };
 		1849A5721B44E351001B257B /* CYConst.m in Sources */ = {isa = PBXBuildFile; fileRef = 1849A5711B44E351001B257B /* CYConst.m */; };
+		18F53DC71B4A61FD00D2E2D5 /* NSArray+Log.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F53DC61B4A61FD00D2E2D5 /* NSArray+Log.m */; };
 		9A37E9EB1B478EB500DA9F7D /* CYButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A37E9EA1B478EB500DA9F7D /* CYButton.m */; };
 		9AA1F4A31B442E9D009F23DD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AA1F4A21B442E9D009F23DD /* main.m */; };
 		9AA1F4A61B442E9D009F23DD /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AA1F4A51B442E9D009F23DD /* AppDelegate.m */; };
@@ -38,6 +39,8 @@
 		1849A5701B44E351001B257B /* CYConst.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CYConst.h; sourceTree = "<group>"; };
 		1849A5711B44E351001B257B /* CYConst.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CYConst.m; sourceTree = "<group>"; };
 		1849A5731B44E571001B257B /* CYCustomAlertView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CYCustomAlertView.h; sourceTree = "<group>"; };
+		18F53DC51B4A61FD00D2E2D5 /* NSArray+Log.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+Log.h"; sourceTree = "<group>"; };
+		18F53DC61B4A61FD00D2E2D5 /* NSArray+Log.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+Log.m"; sourceTree = "<group>"; };
 		9A37E9E91B478EB500DA9F7D /* CYButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CYButton.h; sourceTree = "<group>"; };
 		9A37E9EA1B478EB500DA9F7D /* CYButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CYButton.m; sourceTree = "<group>"; };
 		9AA1F49D1B442E9D009F23DD /* CYCustomAlertView.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CYCustomAlertView.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -102,6 +105,8 @@
 				9AA1F4A71B442E9D009F23DD /* ViewController.h */,
 				9AA1F4A81B442E9D009F23DD /* ViewController.m */,
 				9AA1F4AA1B442E9D009F23DD /* Main.storyboard */,
+				18F53DC51B4A61FD00D2E2D5 /* NSArray+Log.h */,
+				18F53DC61B4A61FD00D2E2D5 /* NSArray+Log.m */,
 				9AA1F4AD1B442E9D009F23DD /* Images.xcassets */,
 				9AA1F4AF1B442E9D009F23DD /* LaunchScreen.xib */,
 				9AA1F4A01B442E9D009F23DD /* Supporting Files */,
@@ -259,6 +264,7 @@
 				180F454F1B466D5C00E36836 /* UIView+CYFrame.m in Sources */,
 				9AA1F4A91B442E9D009F23DD /* ViewController.m in Sources */,
 				9AA1F4A61B442E9D009F23DD /* AppDelegate.m in Sources */,
+				18F53DC71B4A61FD00D2E2D5 /* NSArray+Log.m in Sources */,
 				9A37E9EB1B478EB500DA9F7D /* CYButton.m in Sources */,
 				9AA1F4A31B442E9D009F23DD /* main.m in Sources */,
 			);

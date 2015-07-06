@@ -24,10 +24,10 @@
 }
 
 - (IBAction)showDialog {
-    CYAlertView *alert = [[CYAlertView alloc]initWithTitle:@"我的提示" message:@"消息正文" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
-    alert.title = @"我的提示";
+    CYAlertView *alert = [[CYAlertView alloc]initWithTitle:@"我的提示" message:@"消息正文" delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", @"XXX", @"YYY", nil];
+//    alert.title = @"我的提示";
     alert.containerView = [self createDemoView];
-    [alert setButtonTitles:@[@"取消", @"确定", @"未知"]];
+//    [alert setButtonTitles:@[@"取消", @"确定", @"未知"]];
     [alert show];
 }
 

@@ -41,7 +41,7 @@
 /** 弹出框 */
 @property (strong, nonatomic) UIView *dialogView;
 /** 按钮标题数组 */
-@property (strong, nonatomic) NSArray *buttonTitles;
+@property (strong, nonatomic) NSMutableArray *buttonTitles;
 /** 标题View */
 @property (weak, nonatomic) UILabel *titleLabel;
 
@@ -58,7 +58,7 @@
 
  @return CYAlertView对象
  */
-- (instancetype)initWithTitle:(NSString *)title message:(NSString *)message delegate:(id /*<UIAlertViewDelegate>*/)delegate cancelButtonTitle:(NSString *)cancelButtonTitle otherButtonTitles:(NSString *)otherButtonTitles, ... NS_REQUIRES_NIL_TERMINATION NS_EXTENSION_UNAVAILABLE_IOS("Use UIAlertController instead.");
+- (instancetype)initWithTitle:(NSString *)title message:(NSString *)message delegate:(id /*<CYAlertViewDelegate>*/)delegate cancelButtonTitle:(NSString *)cancelButtonTitle otherButtonTitles:(NSString *)otherButtonTitles, ... NS_REQUIRES_NIL_TERMINATION NS_EXTENSION_UNAVAILABLE_IOS("Use UIAlertController instead.");
 
 /** 显示弹出框 */
 - (void)show;

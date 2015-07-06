@@ -27,6 +27,13 @@
     return _buttonArray;
 }
 
+- (NSMutableArray *)buttonTitles {
+    if (_buttonTitles == nil) {
+        _buttonTitles = [NSMutableArray array];
+    }
+    return _buttonTitles;
+}
+
 - (UIView *)lineView {
     if (_lineView == nil) {
         UIView *lineView = [[UIView alloc] init];
@@ -116,6 +123,26 @@
         self.title = title;
         self.delegate = delegate;
         self.frame = CYScreen.bounds;
+        // 获取可变参数的值
+        if (![self isBlankString:cancelButtonTitle]) {
+            [self.buttonTitles addObject:cancelButtonTitle];
+        }
+        NSString *str;
+        va_list list;
+        if(otherButtonTitles)
+        {
+            //1.取得第一个参数的值
+            CYLog(@"%@", otherButtonTitles);
+            [self.buttonTitles addObject:otherButtonTitles];
+            //2.从第2个参数开始，依此取得所有参数的值
+            va_start(list, otherButtonTitles);
+            while ((str = va_arg(list, NSString *))){
+                CYLog(@"%@", str);
+                [self.buttonTitles addObject:str];
+            }
+            va_end(list);
+        }
+        CYLog(@"%@", self.buttonTitles);
     }
     return self;
 }
@@ -178,6 +205,24 @@
         self.containerView.y = CYCustomAlertViewTitleHeight;
     }
     [self setupButtons];
+}
+
+///  判断是否是空白字符串
+///
+///  @param string string
+///
+///  @return 是否是空白字符串
+- (BOOL)isBlankString:(NSString *)string {
+    if (string == nil || string == NULL) {
+        return YES;
+    }
+    if ([string isKindOfClass:[NSNull class]]) {
+        return YES;
+    }
+    if ([[string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] length]==0) {
+        return YES;
+    }
+    return NO;
 }
 
 #pragma mark - 添加按钮
