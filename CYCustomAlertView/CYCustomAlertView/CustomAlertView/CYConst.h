@@ -15,6 +15,9 @@
 
 // 字体大小
 #define CYLabelFont [UIFont boldSystemFontOfSize:13]
+#define CYFont(f) [UIFont systemFontOfSize:(f)]
+#define CYFontB(f) [UIFont boldSystemFontOfSize:(f)]
+
 
 // 图片路径
 #define CYCustomAlertViewSrcName(file) [@"CYCustomAlertView.bundle" stringByAppendingPathComponent:file]

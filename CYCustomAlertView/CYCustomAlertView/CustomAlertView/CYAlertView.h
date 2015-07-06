@@ -18,13 +18,13 @@
 
 - (void)customAlertView:(CYAlertView *)customAlertView clickedButtonAtIndex:(NSInteger)buttonIndex;
 
-- (void)customAlertViewCancel:(CYAlertView *)customAlertView;
-
-- (void)willPresentCustomAlertView:(CYAlertView *)customAlertView;  // before animation and showing view
-- (void)didPresentCustomAlertView:(CYAlertView *)customAlertView;  // after animation
-
-- (void)customAlertView:(CYAlertView *)customAlertView willDismissWithButtonIndex:(NSInteger)buttonIndex; // before animation and hiding view
-- (void)customAlertView:(CYAlertView *)customAlertView didDismissWithButtonIndex:(NSInteger)buttonIndex;  // after animation
+//- (void)customAlertViewCancel:(CYAlertView *)customAlertView;
+//
+//- (void)willPresentCustomAlertView:(CYAlertView *)customAlertView;  // before animation and showing view
+//- (void)didPresentCustomAlertView:(CYAlertView *)customAlertView;  // after animation
+//
+//- (void)customAlertView:(CYAlertView *)customAlertView willDismissWithButtonIndex:(NSInteger)buttonIndex; // before animation and hiding view
+//- (void)customAlertView:(CYAlertView *)customAlertView didDismissWithButtonIndex:(NSInteger)buttonIndex;  // after animation
 
 @end
 
@@ -38,14 +38,8 @@
 @property(copy, nonatomic) NSString *message;
 /** 容器视图（添加用户自定义的控件） */
 @property (strong, nonatomic) UIView *containerView;
-/** 弹出框 */
-@property (strong, nonatomic) UIView *dialogView;
 /** 按钮标题数组 */
 @property (strong, nonatomic) NSMutableArray *buttonTitles;
-/** 标题View */
-@property (weak, nonatomic) UILabel *titleLabel;
-
-@property (weak, nonatomic) UIView *lineView;
 
 /**
  实例化CYAlertView对象
@@ -58,12 +52,9 @@
 
  @return CYAlertView对象
  */
-- (instancetype)initWithTitle:(NSString *)title message:(NSString *)message delegate:(id /*<CYAlertViewDelegate>*/)delegate cancelButtonTitle:(NSString *)cancelButtonTitle otherButtonTitles:(NSString *)otherButtonTitles, ... NS_REQUIRES_NIL_TERMINATION NS_EXTENSION_UNAVAILABLE_IOS("Use UIAlertController instead.");
+- (instancetype)initWithTitle:(NSString *)title message:(NSString *)message delegate:(id /*<CYAlertViewDelegate>*/)delegate cancelButtonTitle:(NSString *)cancelButtonTitle otherButtonTitles:(NSString *)otherButtonTitles, ...;
 
 /** 显示弹出框 */
 - (void)show;
-
-/** 隐藏弹出框 */
-- (void)close;
 
 @end

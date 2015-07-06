@@ -14,6 +14,13 @@
 
 @property (nonatomic,strong) NSMutableArray *buttonArray;
 
+/** 弹出框 */
+@property (strong, nonatomic) UIView *dialogView;
+/** 标题View */
+@property (weak, nonatomic) UILabel *titleLabel;
+/** 分割线 */
+@property (weak, nonatomic) UIView *lineView;
+
 @end
 
 @implementation CYAlertView
@@ -48,6 +55,7 @@
     if (_titleLabel == nil) {
         UILabel *titleLabel = [[UILabel alloc]init];
         titleLabel.frame = CGRectMake(0, 0, CYCustomAlertViewWidth, CYCustomAlertViewTitleHeight);
+        titleLabel.font = CYFontB(16);
         titleLabel.textAlignment = NSTextAlignmentCenter;
         self.titleLabel = titleLabel;
         [self.dialogView addSubview:_titleLabel];
@@ -82,6 +90,7 @@
     return _dialogView;
 }
 
+#pragma mark - 生命周期方法
 - (void)layoutSubviews {
     [super layoutSubviews];
 
@@ -112,15 +121,16 @@
     }
 }
 
+#pragma mark - 对外公开方法
 - (instancetype)initWithTitle:(NSString *)title message:(NSString *)message delegate:(id)delegate cancelButtonTitle:(NSString *)cancelButtonTitle otherButtonTitles:(NSString *)otherButtonTitles, ... {
     if (self = [super init]) {
-        
         self.dialogView.width = CYCustomAlertViewWidth;
         self.dialogView.height = CYCustomAlertViewHeight;
         self.dialogView.centerX = self.centerX;
         self.dialogView.centerY = self.centerY;
         
         self.title = title;
+        self.message = message;
         self.delegate = delegate;
         self.frame = CYScreen.bounds;
         // 获取可变参数的值
@@ -147,39 +157,19 @@
     return self;
 }
 
-- (void)show {
+- (void)show
+{
     [self setupContainerView];
-    self.dialogView.layer.shouldRasterize = YES;
-    self.dialogView.layer.rasterizationScale = [CYScreen scale];
-    self.layer.shouldRasterize = YES;
-    self.layer.rasterizationScale = [CYScreen scale];
-    
-    self.dialogView.layer.opacity = 0.5f;
-    self.dialogView.layer.transform = CATransform3DMakeScale(1.3f, 1.3f, 1.0);
-    
-    self.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0];
-    [self addSubview:self.dialogView];
-
-    [[[[UIApplication sharedApplication] windows] firstObject] addSubview:self];
-    
-    [UIView animateWithDuration:0.2f animations:^{
-        self.backgroundColor = CYColor_A(0, 0, 0, 0.4);
-        self.dialogView.layer.opacity = 1.0f;
-        self.dialogView.layer.transform = CATransform3DMakeScale(1, 1, 1);
-    }];
+    [self setupButtons];
+    [self setupDialogStyle];
 }
 
-- (void)close {
-    
-}
 
 #pragma mark - 重写set方法
 - (void)setTitle:(NSString *)title {
     _title = title;
     self.titleLabel.text = title;
 }
-
-#pragma mark - 私有方法
 
 - (void)setContainerView:(UIView *)containerView {
     _containerView = containerView;
@@ -195,37 +185,50 @@
     [self.dialogView addSubview:_containerView];
 }
 
+#pragma mark - 私有方法
 - (void)setupContainerView
 {
     if (self.containerView == nil) {
         self.containerView = [[UIView alloc] init];
         self.containerView.width = CYCustomAlertViewWidth;
-        self.containerView.height = 0;
+        self.containerView.height = CYCustomAlertViewHeight - CYCustomAlertViewButtonHeigth - CYCustomAlertViewTitleHeight;;
         self.containerView.x = 0;
         self.containerView.y = CYCustomAlertViewTitleHeight;
+        // 添加label
+        UILabel *messageLabel = [[UILabel alloc]init];
+        messageLabel.frame = self.containerView.bounds;
+        messageLabel.text = self.message;
+        messageLabel.backgroundColor = [UIColor whiteColor];
+        messageLabel.textAlignment = NSTextAlignmentCenter;
+        messageLabel.font = CYFont(13);
+        [self.containerView addSubview:messageLabel];
     }
-    [self setupButtons];
 }
 
-///  判断是否是空白字符串
-///
-///  @param string string
-///
-///  @return 是否是空白字符串
-- (BOOL)isBlankString:(NSString *)string {
-    if (string == nil || string == NULL) {
-        return YES;
-    }
-    if ([string isKindOfClass:[NSNull class]]) {
-        return YES;
-    }
-    if ([[string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] length]==0) {
-        return YES;
-    }
-    return NO;
+/** 设置对话框的外观 */
+- (void)setupDialogStyle
+{
+    self.dialogView.layer.shouldRasterize = YES;
+    self.dialogView.layer.rasterizationScale = [CYScreen scale];
+    self.layer.shouldRasterize = YES;
+    self.layer.rasterizationScale = [CYScreen scale];
+    
+    self.dialogView.layer.opacity = 0.5f;
+    self.dialogView.layer.transform = CATransform3DMakeScale(1.3f, 1.3f, 1.0);
+    
+    self.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0];
+    [self addSubview:self.dialogView];
+    
+    [[[[UIApplication sharedApplication] windows] firstObject] addSubview:self];
+    
+    [UIView animateWithDuration:0.2f animations:^{
+        self.backgroundColor = CYColor_A(0, 0, 0, 0.4);
+        self.dialogView.layer.opacity = 1.0f;
+        self.dialogView.layer.transform = CATransform3DMakeScale(1, 1, 1);
+    }];
 }
 
-#pragma mark - 添加按钮
+/** 添加按钮 */
 - (void)setupButtons
 {
     if (self.buttonTitles == nil) return;
@@ -251,19 +254,19 @@
         // 设置按钮背景图片
         [eventButton setBackgroundImage:[UIImage imageNamed:CYCustomAlertViewSrcName(@"btn_bg")] forState:UIControlStateNormal];
         if (i == 0) {
-            [eventButton.titleLabel setFont:[UIFont fontWithName:@"Helvetica-Bold" size:17]];
+            [eventButton.titleLabel setFont:CYFontB(17)];
         }
         // 设置按钮底部为圆角
         if (count > 1) {
             UIBezierPath *maskPath = nil;
             if (i == 0) {
-                 maskPath = [UIBezierPath bezierPathWithRoundedRect:eventButton.bounds byRoundingCorners: UIRectCornerBottomLeft cornerRadii:CGSizeMake(CYCustomAlertViewCornerRadius, CYCustomAlertViewCornerRadius)];
+                maskPath = [UIBezierPath bezierPathWithRoundedRect:eventButton.bounds byRoundingCorners: UIRectCornerBottomLeft cornerRadii:CGSizeMake(CYCustomAlertViewCornerRadius, CYCustomAlertViewCornerRadius)];
             }else if (i == (count - 1)) {
                 maskPath = [UIBezierPath bezierPathWithRoundedRect:eventButton.bounds byRoundingCorners: UIRectCornerBottomRight cornerRadii:CGSizeMake(CYCustomAlertViewCornerRadius, CYCustomAlertViewCornerRadius)];
             }else {
                 maskPath = [UIBezierPath bezierPathWithRoundedRect:eventButton.bounds byRoundingCorners: kNilOptions cornerRadii:CGSizeMake(CYCustomAlertViewCornerRadius, CYCustomAlertViewCornerRadius)];
             }
-
+            
             CAShapeLayer *maskLayer = [[CAShapeLayer alloc] init];
             maskLayer.frame = eventButton.bounds;
             maskLayer.path = maskPath.CGPath;
@@ -274,12 +277,42 @@
     }
 }
 
+///  判断是否是空白字符串
+///
+///  @param string string
+///
+///  @return 是否是空白字符串
+- (BOOL)isBlankString:(NSString *)string {
+    if (string == nil || string == NULL) {
+        return YES;
+    }
+    if ([string isKindOfClass:[NSNull class]]) {
+        return YES;
+    }
+    if ([[string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] length]==0) {
+        return YES;
+    }
+    return NO;
+}
+
+/** 隐藏弹出框 */
+- (void)close
+{
+    self.dialogView.layer.opacity = 1.0f;
+    for (UIView *v in [self subviews]) {
+        [v removeFromSuperview];
+    }
+    [self removeFromSuperview];
+}
+
+
 #pragma mark - 按钮点击事件
 /** 按钮点击事件 */
 - (void)customAlertViewButton_Click:(id)sender
 {
     if ([self.delegate respondsToSelector:@selector(customAlertView:clickedButtonAtIndex:)]) {
         [self.delegate customAlertView:self clickedButtonAtIndex:[sender tag]];
+        [self close];
     }
 }
 
