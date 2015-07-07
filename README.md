@@ -66,4 +66,4 @@ alert.buttonTitles = [NSMutableArray arrayWithArray:@[@"取消", @"提示"]];
 
 * 提示很多文本
 
- <img src="http://img.blog.csdn.net/20150706182807287" width = "320" height = "568" alt="提示很多文本" align=center />
+ <img src="http://img.blog.csdn.net/20150707102056978" width = "320" height = "568" alt="提示很多文本" align=center />

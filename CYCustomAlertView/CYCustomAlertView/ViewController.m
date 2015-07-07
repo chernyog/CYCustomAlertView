@@ -41,7 +41,7 @@
 - (UIView *)createDemoView
 {
     UITextView *textView = [[UITextView alloc]init];
-    textView.text = @"非强制，v1.0.4，250服务器\n1、今天早上\n2、的卡是否\n3、的拉伸到了地方\n4、洒落的发疯是\n5、啊大是大非\n6、阿打发第三方\n7、大发发的\n8、wojssdfasdf\n9、我批发快递费\n";
+    textView.text = @"非强制，v1.0.4，250服务器\n1、今天早上\n2、打开电脑\n3、泡了一杯茶\n4、浏览了一会儿网页\n5、写了几条评论\n6、开了个小会\n7、打开Xcode\n8、修改bug\n9、提交代码";
     textView.editable = NO;
     return textView;
 }
